@@ -8,6 +8,13 @@ import { ListComponent } from './list/list.component';
 import { EditorComponent } from './editor/editor.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ShowPostComponent } from './list/show-post.component';
+import { PostingEpics } from './dataCommunication/epic';
+import { NgRedux } from '@angular-redux/store';
+import { IAppState, rootReducer, INITIAL_STATE } from './dataCommunication/store';
+import { createEpicMiddleware } from 'redux-observable';
+import { createLogger } from 'redux-logger';
+
+const epicMiddleware = createEpicMiddleware();
 
 @NgModule({
   declarations: [
@@ -23,9 +30,19 @@ import { ShowPostComponent } from './list/show-post.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [PostingEpics],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor() { }
+  constructor(
+    ngRedux: NgRedux<IAppState>,
+    epics: PostingEpics
+  ) {
+    ngRedux.configureStore(
+      rootReducer,
+      INITIAL_STATE,
+      [createLogger(), epicMiddleware]
+    );
+    epicMiddleware.run(epics.rootEpic());
+  }
 }

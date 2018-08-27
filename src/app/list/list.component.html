@@ -2,7 +2,7 @@
   <h2>글 목록</h2>
   <button class="btn btn-default" routerLink="/editor">작성</button>
   <!--게시글 목록을 보여주는 list-->
-  <table class="table table-hover" *ngIf='postingList'>
+  <table class="table table-hover" *ngIf='postingList$|async'>
     <thead style="font-weight: bold">
       <tr>
         <td>id</td>
@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor='let posting of postingList' (click)="selectPost(posting.id)" style="cursor: pointer;">
+      <tr *ngFor='let posting of (postingList$|async)' (click)="selectPost(posting.id)" style="cursor: pointer;">
         <td style="width: 10%">{{posting.id}}</td>
         <td>{{posting.title}}</td>
       </tr>
