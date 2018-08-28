@@ -1,8 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DataCommService } from '../dataCommunication/data-comm.service';
-import { Posting } from '../dataCommunication/posting';
+import { Posting } from '../posting_model';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { PostActions } from '../dataCommunication/actions';
+import { select } from '@angular-redux/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-editor',
@@ -10,15 +12,11 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./editor.component.css']
 })
 export class EditorComponent implements OnInit {
-  post: Posting = {
-    id: null,
-    title: '',
-    text: ''
-  };
+  @select() selectedPost$: Observable<Posting>;
 
-  constructor(private dcService: DataCommService,
-    private router: Router,
-    private route: ActivatedRoute
+  constructor(
+    private route: ActivatedRoute,
+    private actions: PostActions
   ) { }
 
   ngOnInit() {
@@ -28,27 +26,35 @@ export class EditorComponent implements OnInit {
   initVal() {
     const id = +this.route.snapshot.paramMap.get('id');
     if (id !== 0) {
-      this.dcService.getPosting(id).subscribe(post => this.post = post);
+      this.actions.get(id);
     }
   }
 
   updatePosting(form: NgForm) {
-    this.dcService.updatePosting({
+    const post = {
+      id: +this.route.snapshot.paramMap.get('id'),
+      title: form.value.title,
+      text: form.value.text
+    };
+    this.actions.update(post);
+    /*this.dcService.updatePosting({
       id: this.post.id,
       title: form.value.title,
       text: form.value.text
-    }as Posting).subscribe((next) => {}, (err) => {}, () => this.router.navigate(['/list']));
+    }as Posting).subscribe((next) => {}, (err) => {}, () => this.router.navigate(['/list']));*/
   }
 
   addPosting(form: NgForm) {
-    this.dcService.addPosting({
+    this.actions.add({
       title: form.value.title,
       text: form.value.text
-    } as Posting).subscribe((next) => {}, (err) => {}, () => this.router.navigate(['/list']));
+    } as Posting);
   }
 
   editPosting(form: NgForm) {
-    if (this.post.id === null) {
+    let id;
+    this.selectedPost$.subscribe(post => id = post.id);
+    if (id === 0) {
       this.addPosting(form);
     } else {
       this.updatePosting(form);

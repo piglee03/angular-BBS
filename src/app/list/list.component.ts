@@ -1,6 +1,5 @@
-import { Component, OnInit, OnChanges, Input, SimpleChanges } from '@angular/core';
-import { DataCommService } from '../dataCommunication/data-comm.service';
-import { Posting } from '../dataCommunication/posting';
+import { Component, OnInit } from '@angular/core';
+import { Posting } from '../posting_model';
 import { select, NgRedux } from '@angular-redux/store';
 import { Observable } from 'rxjs';
 import { PostActions } from '../dataCommunication/actions';
@@ -14,48 +13,29 @@ import { IAppState } from '../dataCommunication/store';
 export class ListComponent implements OnInit {
 
   @select() readonly postingList$: Observable<Posting[]>; // list data
-  selectedPost: Posting; // 내용을 보여줄 post
+  @select() readonly selectedPost$: Observable<Posting>; // 내용을 보여줄 post
+  blankPost: Posting = {
+    id: 0,
+    title: '',
+    text: ''
+  }; // 내용을 보여줄 post
 
   constructor(
-    // private dcService: DataCommService
-    private ngRedux: NgRedux<IAppState>,
     private actions: PostActions
   ) { }
 
   ngOnInit() {
     this.getPostings();
   }
-
   getPostings(): void {
-    this.actions.getAll();
-    /*
-    this.dcService.getAllPostings().subscribe(list => {
-      if (this.postingList !== list) {
-        this.postingList = list;
-      }
-    });
-    */
+    this.actions.getAll(); // 매번 전부 가져오지 말고 변동이 있을 때에만 그때그때 받아오게 수정
   }
 
   selectPost(id: number) {
-    /*
-    this.dcService.getPosting(id).subscribe((post: Posting) => {
-      if (this.selectedPost && this.selectedPost.id === post['id']) {
-        this.selectedPost = null;
-      } else {
-        this.selectedPost = post;
-      }
-    });
-    */
+    this.actions.get(id);
   }
 
   deletePosting(post: Posting) {
-    /*
-    this.postingList = this.postingList.filter(posting => post.id !== posting.id);
-    this.dcService.deletePosting(+post.id).subscribe();
-    this.selectedPost = null;
-    */
+    this.actions.delete(post.id);
   }
 }
-
-// redux함께 사용하기 + 함께 사용할 middleware 알아보기

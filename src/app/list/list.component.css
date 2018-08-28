@@ -1,0 +1,5 @@
+.text {
+  height: 600px;
+  overflow-y: scroll;
+  white-space: pre;
+}

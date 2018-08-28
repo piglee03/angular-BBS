@@ -1,4 +1,4 @@
-<div *ngIf="post" class="container">
+<div *ngIf="selectedPost$|async as post" class="container">
   <h2>Editor</h2>
   <form #inputForm="ngForm" (ngSubmit)="editPosting(inputForm)">
     <input class="form-control" name="title" #title="ngModel" [(ngModel)]="post.title" placeholder="title" required/>

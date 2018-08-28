@@ -7,9 +7,9 @@ import { AppComponent } from './app.component';
 import { ListComponent } from './list/list.component';
 import { EditorComponent } from './editor/editor.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ShowPostComponent } from './list/show-post.component';
 import { PostingEpics } from './dataCommunication/epic';
-import { NgRedux } from '@angular-redux/store';
+
+import { NgRedux, DevToolsExtension, NgReduxModule } from '@angular-redux/store';
 import { IAppState, rootReducer, INITIAL_STATE } from './dataCommunication/store';
 import { createEpicMiddleware } from 'redux-observable';
 import { createLogger } from 'redux-logger';
@@ -20,15 +20,15 @@ const epicMiddleware = createEpicMiddleware();
   declarations: [
     AppComponent,
     ListComponent,
-    EditorComponent,
-    ShowPostComponent
+    EditorComponent
   ],
   imports: [
     BrowserModule,
     RoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgReduxModule
   ],
   providers: [PostingEpics],
   bootstrap: [AppComponent]
@@ -36,12 +36,13 @@ const epicMiddleware = createEpicMiddleware();
 export class AppModule {
   constructor(
     ngRedux: NgRedux<IAppState>,
-    epics: PostingEpics
-  ) {
+    devTools: DevToolsExtension,
+    epics: PostingEpics) {
     ngRedux.configureStore(
       rootReducer,
       INITIAL_STATE,
-      [createLogger(), epicMiddleware]
+      [createLogger(), epicMiddleware],
+      devTools.isEnabled() ? [devTools.enhancer()] : [],
     );
     epicMiddleware.run(epics.rootEpic());
   }

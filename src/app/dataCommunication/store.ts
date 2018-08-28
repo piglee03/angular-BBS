@@ -1,40 +1,52 @@
 import { PostActions } from './actions';
-import { Posting } from './posting';
+import { Posting } from '../posting_model';
 
 export interface IAppState {
   postingList: Posting[];
+  selectedPost: Posting;
+  error?: any;
 }
 
 export const INITIAL_STATE: IAppState = {
-  postingList: []
+  postingList: [],
+  selectedPost: {
+    id: 0,
+    title: '',
+    text: ''
+  },
+  error: null
 };
 
-
 export function rootReducer(lastState: IAppState = INITIAL_STATE, action): IAppState {
-
   switch (action.type) {
     case PostActions.GETALL:
       return {
+        ...lastState,
         postingList: []
       };
 
     case PostActions.GETALL_FULFILLED:
       return {
+        ...lastState,
         postingList: action.payload
       };
 
     case PostActions.GET:
       return {
-        postingList: lastState.postingList
+        ...lastState,
+        selectedPost: INITIAL_STATE.selectedPost
       };
 
     case PostActions.GET_FULFILLED:
       return {
-        postingList: action.payload
+        ...lastState,
+        selectedPost: action.payload
       };
-
-    default:
-      return lastState;
+    case PostActions.DELETE_FULFILLED:
+      return {
+        ...lastState,
+        selectedPost: INITIAL_STATE.selectedPost
+      };
   }
-
+  return lastState;
 }
