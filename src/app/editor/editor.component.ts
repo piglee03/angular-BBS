@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Posting } from '../posting_model';
 import { NgForm } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { PostActions } from '../dataCommunication/actions';
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs';

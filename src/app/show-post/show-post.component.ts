@@ -3,31 +3,24 @@ import { Posting } from '../posting_model';
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs';
 import { PostActions } from '../dataCommunication/actions';
-
+import { ActivatedRoute } from '@angular/router';
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  selector: 'app-show-post',
+  templateUrl: './show-post.component.html',
+  styleUrls: ['./show-post.component.css']
 })
-export class ListComponent implements OnInit {
-
-  @select() readonly postingList$: Observable<Posting[]>; // list data
+export class ShowPostComponent implements OnInit {
   @select() readonly selectedPost$: Observable<Posting>; // 내용을 보여줄 post
 
   constructor(
-    private actions: PostActions
-  ) {}
-
+    private actions: PostActions,
+    private route: ActivatedRoute
+  ) { }
   ngOnInit() {
-    this.getPostings();
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.actions.get(id);
   }
-
-  getPostings(): void {
-    this.actions.getAll();
-  }
-
   deletePosting(post: Posting) {
     this.actions.delete(post.id);
-    this.getPostings();
   }
 }

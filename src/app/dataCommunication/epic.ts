@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { combineEpics, ActionsObservable, ofType } from 'redux-observable';
 import { PostActions } from './actions';
-import { switchMap, map, catchError, tap, delay } from 'rxjs/operators';
+import { switchMap, map, catchError, tap } from 'rxjs/operators';
 import { Posting } from '../posting_model';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
@@ -32,7 +32,6 @@ export class PostingEpics {
   getAllPostings(action$: ActionsObservable<any>) {
     return action$.pipe(
       ofType(PostActions.GETALL),
-      delay(100),
       switchMap(action =>
         this.http.get<Posting[]>(this.URL).pipe(
           map(response => ({ type: PostActions.GETALL_FULFILLED, payload: response })),
@@ -50,7 +49,7 @@ export class PostingEpics {
     return action$.pipe(
       ofType(PostActions.GET),
       switchMap(action =>
-        this.http.get<Posting>(`${this.URL}/${action.payload.id}`).pipe( // action.payload.id
+        this.http.get<Posting>(`${this.URL}/${action.payload.id}`).pipe(
           map(response => ({ type: PostActions.GET_FULFILLED, payload: response })),
           catchError((error: Error): any => of({
             type: PostActions.GET_ERROR,
@@ -81,6 +80,7 @@ export class PostingEpics {
       ofType(PostActions.DELETE),
       switchMap(action =>
         this.http.delete<Posting[]>(`${this.URL}/${action.payload.id}`, httpOptions).pipe(
+          tap(res => this.router.navigate(action.meta)),
           map(response => ({ type: PostActions.DELETE_FULFILLED, payload: action.payload })),
           catchError((error: Error): any => of({
             type: PostActions.DELETE_ERROR,

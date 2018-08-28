@@ -1,0 +1,18 @@
+.text {
+  height: 600px;
+  overflow-y: scroll;
+  white-space: pre;
+  box-shadow: 5px 5px 10px #aaa;
+  margin-bottom: 10px;
+}
+btn {
+  float: right;
+}
+h2 {
+  margin-top: 50px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  background-color: #eee;
+}

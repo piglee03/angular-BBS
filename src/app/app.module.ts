@@ -13,6 +13,7 @@ import { NgRedux, DevToolsExtension, NgReduxModule } from '@angular-redux/store'
 import { IAppState, rootReducer, INITIAL_STATE } from './dataCommunication/store';
 import { createEpicMiddleware } from 'redux-observable';
 import { createLogger } from 'redux-logger';
+import { ShowPostComponent } from './show-post/show-post.component';
 
 const epicMiddleware = createEpicMiddleware();
 
@@ -20,7 +21,8 @@ const epicMiddleware = createEpicMiddleware();
   declarations: [
     AppComponent,
     ListComponent,
-    EditorComponent
+    EditorComponent,
+    ShowPostComponent
   ],
   imports: [
     BrowserModule,

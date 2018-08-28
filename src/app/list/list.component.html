@@ -1,7 +1,6 @@
 <div class="container">
   <h2>글 목록</h2>
   <button class="btn btn-default" routerLink="/editor">작성</button>
-  <!--게시글 목록을 보여주는 list-->
   <table class="table table-hover" *ngIf='postingList$|async'>
     <thead style="font-weight: bold">
       <tr>
@@ -10,24 +9,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor='let posting of (postingList$|async)' (click)="selectPost(posting.id)" style="cursor: pointer;">
+      <tr *ngFor='let posting of (postingList$|async)' style="cursor: pointer;" routerLink="/posting/{{posting.id}}">
         <td style="width: 10%">{{posting.id}}</td>
         <td>{{posting.title}}</td>
       </tr>
     </tbody>
   </table>
-  <hr/>
-
-  <div *ngIf="selectedPost$|async as post">
-    <div *ngIf="post.id !== null">
-      <button class="btn btn-default btn-sm" (click)="deletePosting(post)">삭제</button>
-      <button class="btn btn-default btn-sm" routerLink="/editor/{{post.id}}">수정</button>
-      <h3>{{post.title}}</h3>
-      <div class="text">
-        {{post.text}}
-      </div>
-    </div>
-    <br/>
-  </div>
-
 </div>

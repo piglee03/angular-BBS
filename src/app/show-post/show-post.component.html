@@ -1,0 +1,10 @@
+<div class="container" *ngIf="selectedPost$|async as post">
+  <div *ngIf="post.id !== null">
+    <h2>{{post.title}}</h2>
+    <div class="text">
+      {{post.text}}
+    </div>
+    <button class="btn btn-default btn-default" (click)="deletePosting(post)">삭제</button>
+    <button class="btn btn-default btn-default" routerLink="/editor/{{post.id}}">수정</button>
+  </div>
+</div>
