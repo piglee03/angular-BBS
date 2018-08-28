@@ -2,7 +2,8 @@
   <h2>Editor</h2>
   <form #inputForm="ngForm" (ngSubmit)="editPosting(inputForm)">
     <input class="form-control" name="title" #title="ngModel" [(ngModel)]="post.title" placeholder="title" required/>
-    <textarea class="form-control" name="text" #text="ngModel" [(ngModel)]="post.text" placeholder="text" cols="40" rows="10" required></textarea>
+    <textarea class="form-control" name="text" #text="ngModel" [(ngModel)]="post.text" placeholder="text" cols="40" rows="10"
+      required></textarea>
     <button class="btn btn-default" type="submit" [disabled]="!inputForm.form.valid">완료</button>
   </form>
 </div>

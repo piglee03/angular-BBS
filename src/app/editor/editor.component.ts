@@ -25,9 +25,7 @@ export class EditorComponent implements OnInit {
 
   initVal() {
     const id = +this.route.snapshot.paramMap.get('id');
-    if (id !== 0) {
-      this.actions.get(id);
-    }
+    this.actions.get(id);
   }
 
   updatePosting(form: NgForm) {
@@ -37,11 +35,6 @@ export class EditorComponent implements OnInit {
       text: form.value.text
     };
     this.actions.update(post);
-    /*this.dcService.updatePosting({
-      id: this.post.id,
-      title: form.value.title,
-      text: form.value.text
-    }as Posting).subscribe((next) => {}, (err) => {}, () => this.router.navigate(['/list']));*/
   }
 
   addPosting(form: NgForm) {
@@ -54,7 +47,7 @@ export class EditorComponent implements OnInit {
   editPosting(form: NgForm) {
     let id;
     this.selectedPost$.subscribe(post => id = post.id);
-    if (id === 0) {
+    if (id === undefined) {
       this.addPosting(form);
     } else {
       this.updatePosting(form);

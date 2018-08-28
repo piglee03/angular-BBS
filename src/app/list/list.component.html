@@ -19,7 +19,7 @@
   <hr/>
 
   <div *ngIf="selectedPost$|async as post">
-    <div *ngIf = "post.id !== 0">
+    <div *ngIf="post.id !== null">
       <button class="btn btn-default btn-sm" (click)="deletePosting(post)">삭제</button>
       <button class="btn btn-default btn-sm" routerLink="/editor/{{post.id}}">수정</button>
       <h3>{{post.title}}</h3>

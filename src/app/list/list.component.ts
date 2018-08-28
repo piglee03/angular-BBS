@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Posting } from '../posting_model';
-import { select, NgRedux } from '@angular-redux/store';
+import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs';
 import { PostActions } from '../dataCommunication/actions';
-import { IAppState } from '../dataCommunication/store';
 
 @Component({
   selector: 'app-list',
@@ -14,17 +13,13 @@ export class ListComponent implements OnInit {
 
   @select() readonly postingList$: Observable<Posting[]>; // list data
   @select() readonly selectedPost$: Observable<Posting>; // 내용을 보여줄 post
-  blankPost: Posting = {
-    id: 0,
-    title: '',
-    text: ''
-  }; // 내용을 보여줄 post
 
   constructor(
     private actions: PostActions
   ) { }
 
   ngOnInit() {
+    console.log('selectedPost$: ', this.selectedPost$);
     this.getPostings();
   }
   getPostings(): void {
@@ -37,5 +32,6 @@ export class ListComponent implements OnInit {
 
   deletePosting(post: Posting) {
     this.actions.delete(post.id);
+    this.getPostings();
   }
 }

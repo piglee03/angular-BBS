@@ -10,7 +10,7 @@ export interface IAppState {
 export const INITIAL_STATE: IAppState = {
   postingList: [],
   selectedPost: {
-    id: 0,
+    id: null,
     title: '',
     text: ''
   },
@@ -19,12 +19,6 @@ export const INITIAL_STATE: IAppState = {
 
 export function rootReducer(lastState: IAppState = INITIAL_STATE, action): IAppState {
   switch (action.type) {
-    case PostActions.GETALL:
-      return {
-        ...lastState,
-        postingList: []
-      };
-
     case PostActions.GETALL_FULFILLED:
       return {
         ...lastState,
@@ -42,6 +36,7 @@ export function rootReducer(lastState: IAppState = INITIAL_STATE, action): IAppS
         ...lastState,
         selectedPost: action.payload
       };
+
     case PostActions.DELETE_FULFILLED:
       return {
         ...lastState,
