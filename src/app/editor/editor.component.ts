@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Posting } from '../posting_model';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';

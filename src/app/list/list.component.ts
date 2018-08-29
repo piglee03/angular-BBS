@@ -10,24 +10,14 @@ import { PostActions } from '../dataCommunication/actions';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-
   @select() readonly postingList$: Observable<Posting[]>; // list data
   @select() readonly selectedPost$: Observable<Posting>; // 내용을 보여줄 post
-
   constructor(
     private actions: PostActions
-  ) {}
+  ) { }
 
   ngOnInit() {
-    this.getPostings();
-  }
-
-  getPostings(): void {
     this.actions.getAll();
   }
 
-  deletePosting(post: Posting) {
-    this.actions.delete(post.id);
-    this.getPostings();
-  }
 }
