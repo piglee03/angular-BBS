@@ -17,7 +17,12 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.actions.getAll();
+    this.postingList$.subscribe(list => {
+      if (list.length === 0) {
+        this.actions.getAll();
+      }
+    });
+    // this.actions.getAll();
   }
 
 }

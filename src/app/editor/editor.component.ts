@@ -52,5 +52,7 @@ export class EditorComponent implements OnInit {
     } else {
       this.updatePosting(form);
     }
+    console.log('hee');
+    this.actions.getAll();
   }
 }

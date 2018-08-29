@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { combineEpics, ActionsObservable, ofType } from 'redux-observable';
 import { PostActions } from './actions';
-import { switchMap, map, catchError, tap } from 'rxjs/operators';
+import { switchMap, map, catchError, tap, delay } from 'rxjs/operators';
 import { Posting } from '../posting_model';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
@@ -32,6 +32,7 @@ export class PostingEpics {
   getAllPostings(action$: ActionsObservable<any>) {
     return action$.pipe(
       ofType(PostActions.GETALL),
+      delay(100),
       switchMap(action =>
         this.http.get<Posting[]>(this.URL).pipe(
           map(response => ({ type: PostActions.GETALL_FULFILLED, payload: response })),
