@@ -12,6 +12,7 @@ import { PostActions } from '../dataCommunication/actions';
 export class ListComponent implements OnInit {
   @select() readonly postingList$: Observable<Posting[]>; // list data
   @select() readonly selectedPost$: Observable<Posting>; // 내용을 보여줄 post
+
   constructor(
     private actions: PostActions
   ) { }
@@ -21,8 +22,7 @@ export class ListComponent implements OnInit {
       if (list.length === 0) {
         this.actions.getAll();
       }
-    });
-    // this.actions.getAll();
+    }).unsubscribe();
   }
 
 }

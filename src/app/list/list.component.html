@@ -4,15 +4,18 @@
   <table class="table table-hover" *ngIf='postingList$|async'>
     <thead style="font-weight: bold">
       <tr>
-        <td>id</td>
+        <td style="width: 10%">id</td>
         <td>title</td>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor='let posting of (postingList$|async)' style="cursor: pointer;" routerLink="/posting/{{posting.id}}">
+    <tbody *ngIf='(postingList$|async) as pList'>
+      <tr *ngFor='let posting of pList' style="cursor: pointer;" routerLink="/posting/{{posting.id}}">
         <td style="width: 10%">{{posting.id}}</td>
         <td>{{posting.title}}</td>
       </tr>
+        <tr *ngIf='pList.length === 0' style="cursor: default; text-align: center;">
+          <td [attr.colspan]="2">서버에 게시글이 존재하지 않습니다.</td>
+        </tr>
     </tbody>
   </table>
 </div>
