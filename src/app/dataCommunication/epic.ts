@@ -32,7 +32,6 @@ export class PostingEpics {
   getAllPostings(action$: ActionsObservable<any>) {
     return action$.pipe(
       ofType(PostActions.GETALL),
-      delay(10),
       switchMap(action =>
         this.http.get<Posting[]>(this.URL).pipe(
           map(response => ({ type: PostActions.GETALL_FULFILLED, payload: response })),

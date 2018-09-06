@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class EditorComponent implements OnInit {
   @select() selectedPost$: Observable<Posting>;
-
+  @select() lastId$: Observable<Number>;
   constructor(
     private route: ActivatedRoute,
     private actions: PostActions
@@ -38,7 +38,10 @@ export class EditorComponent implements OnInit {
   }
 
   addPosting(form: NgForm) {
+    let newId;
+    this.lastId$.subscribe(id => newId = id);
     this.actions.add({
+      id: newId,
       title: form.value.title,
       text: form.value.text
     } as Posting);
@@ -52,7 +55,5 @@ export class EditorComponent implements OnInit {
     } else {
       this.updatePosting(form);
     }
-    console.log('hee');
-    this.actions.getAll();
   }
 }

@@ -22,6 +22,5 @@ export class ShowPostComponent implements OnInit {
   }
   deletePosting(post: Posting) {
     this.actions.delete(post.id);
-    this.actions.getAll();
   }
 }
